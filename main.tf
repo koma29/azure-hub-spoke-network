@@ -50,3 +50,25 @@ resource "azurerm_virtual_network_peering" "spoke_to_hub" {
   allow_virtual_network_access = true
   allow_forwarded_traffic      = true
 }
+
+resource "azurerm_network_security_group" "hub_nsg" {
+  name                = "nsg-hub-shared"
+  location            = azurerm_resource_group.hub_spoke_rg.location
+  resource_group_name = azurerm_resource_group.hub_spoke_rg.name
+}
+
+resource "azurerm_network_security_group" "spoke_nsg" {
+  name                = "nsg-spoke-workload"
+  location            = azurerm_resource_group.hub_spoke_rg.location
+  resource_group_name = azurerm_resource_group.hub_spoke_rg.name
+}
+
+resource "azurerm_subnet_network_security_group_association" "hub_subnet_nsg_assoc" {
+  subnet_id                 = azurerm_subnet.hub_subnet.id
+  network_security_group_id = azurerm_network_security_group.hub_nsg.id
+}
+
+resource "azurerm_subnet_network_security_group_association" "spoke_subnet_nsg_assoc" {
+  subnet_id                 = azurerm_subnet.spoke_subnet.id
+  network_security_group_id = azurerm_network_security_group.spoke_nsg.id
+}

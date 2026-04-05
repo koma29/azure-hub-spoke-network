@@ -25,3 +25,11 @@ output "hub_to_spoke_peering_name" {
 output "spoke_to_hub_peering_name" {
   value = azurerm_virtual_network_peering.spoke_to_hub.name
 }
+
+output "hub_nsg_name" {
+  value = azurerm_network_security_group.hub_nsg.name
+}
+
+output "spoke_nsg_name" {
+  value = azurerm_network_security_group.spoke_nsg.name
+}
