@@ -72,3 +72,31 @@ resource "azurerm_subnet_network_security_group_association" "spoke_subnet_nsg_a
   subnet_id                 = azurerm_subnet.spoke_subnet.id
   network_security_group_id = azurerm_network_security_group.spoke_nsg.id
 }
+
+resource "azurerm_network_security_rule" "hub_allow_spoke_inbound" {
+  name                        = "allow-spoke-inbound"
+  priority                    = 100
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "*"
+  source_address_prefix       = "10.1.0.0/16"
+  destination_address_prefix  = "10.0.1.0/24"
+  resource_group_name         = azurerm_resource_group.hub_spoke_rg.name
+  network_security_group_name = azurerm_network_security_group.hub_nsg.name
+}
+
+resource "azurerm_network_security_rule" "spoke_allow_hub_inbound" {
+  name                        = "allow-hub-inbound"
+  priority                    = 100
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "*"
+  source_address_prefix       = "10.0.0.0/16"
+  destination_address_prefix  = "10.1.1.0/24"
+  resource_group_name         = azurerm_resource_group.hub_spoke_rg.name
+  network_security_group_name = azurerm_network_security_group.spoke_nsg.name
+}
