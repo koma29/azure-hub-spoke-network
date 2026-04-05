@@ -1,5 +1,9 @@
 # Azure Hub-and-Spoke Network
 
+## Architecture
+
+![Architecture Diagram](architecture.png)
+
 ## Overview
 This project demonstrates a simple hub-and-spoke network architecture in Azure using Terraform. It is based on Microsoft Azure reference architecture guidance for centralized network design, workload isolation, and secure connectivity.
 
