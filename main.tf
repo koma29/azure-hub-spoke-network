@@ -1,0 +1,32 @@
+resource "azurerm_resource_group" "hub_spoke_rg" {
+  name     = var.resource_group_name
+  location = var.location
+}
+
+resource "azurerm_virtual_network" "hub_vnet" {
+  name                = "vnet-hub"
+  address_space       = ["10.0.0.0/16"]
+  location            = azurerm_resource_group.hub_spoke_rg.location
+  resource_group_name = azurerm_resource_group.hub_spoke_rg.name
+}
+
+resource "azurerm_subnet" "hub_subnet" {
+  name                 = "subnet-hub-shared"
+  resource_group_name  = azurerm_resource_group.hub_spoke_rg.name
+  virtual_network_name = azurerm_virtual_network.hub_vnet.name
+  address_prefixes     = ["10.0.1.0/24"]
+}
+
+resource "azurerm_virtual_network" "spoke_vnet" {
+  name                = "vnet-spoke-app"
+  address_space       = ["10.1.0.0/16"]
+  location            = azurerm_resource_group.hub_spoke_rg.location
+  resource_group_name = azurerm_resource_group.hub_spoke_rg.name
+}
+
+resource "azurerm_subnet" "spoke_subnet" {
+  name                 = "subnet-spoke-workload"
+  resource_group_name  = azurerm_resource_group.hub_spoke_rg.name
+  virtual_network_name = azurerm_virtual_network.spoke_vnet.name
+  address_prefixes     = ["10.1.1.0/24"]
+}
