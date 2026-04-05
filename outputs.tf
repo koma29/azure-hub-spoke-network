@@ -17,3 +17,11 @@ output "hub_subnet_name" {
 output "spoke_subnet_name" {
   value = azurerm_subnet.spoke_subnet.name
 }
+
+output "hub_to_spoke_peering_name" {
+  value = azurerm_virtual_network_peering.hub_to_spoke.name
+}
+
+output "spoke_to_hub_peering_name" {
+  value = azurerm_virtual_network_peering.spoke_to_hub.name
+}
