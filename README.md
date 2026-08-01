@@ -1,4 +1,5 @@
 # Azure Hub-and-Spoke Network
+![Terraform CI](https://github.com/koma29/azure-hub-spoke-network/actions/workflows/terraform-ci.yml/badge.svg)
 
 ## Architecture
 
